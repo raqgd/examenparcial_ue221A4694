@@ -12,7 +12,7 @@
     <parameter key="process_duration_for_mail" value="30"/>
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
-      <operator activated="false" class="read_csv" compatibility="10.2.000" expanded="true" height="68" name="Read CSV" width="90" x="45" y="136">
+      <operator activated="true" class="read_csv" compatibility="10.2.000" expanded="true" height="68" name="Read CSV" width="90" x="45" y="136">
         <parameter key="csv_file" value="C:\Users\Raque\OneDrive\Documentos\RapidMiner\Local Repository\examenparcial_ue221A4694\ue221A4694\Data\full_dataset.csv"/>
         <parameter key="column_separators" value=","/>
         <parameter key="trim_lines" value="false"/>
@@ -42,18 +42,18 @@
         </list>
         <parameter key="read_not_matching_values_as_missings" value="false"/>
       </operator>
-      <operator activated="false" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store" width="90" x="179" y="136">
+      <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store" width="90" x="179" y="136">
         <parameter key="repository_entry" value="//Local Repository/examenparcial_ue221A4694/ue221A4694/Data/whole_dataset.csv"/>
       </operator>
-      <operator activated="false" class="retrieve" compatibility="10.2.000" expanded="true" height="68" name="Retrieve" width="90" x="45" y="340">
+      <operator activated="true" class="retrieve" compatibility="10.2.000" expanded="true" height="68" name="Retrieve" width="90" x="45" y="340">
         <parameter key="repository_entry" value="ue221A4694/Data/whole_dataset.csv"/>
       </operator>
-      <operator activated="false" class="blending:set_role" compatibility="10.2.000" expanded="true" height="82" name="Set Role" width="90" x="179" y="340">
+      <operator activated="true" class="blending:set_role" compatibility="10.2.000" expanded="true" height="82" name="Set Role" width="90" x="179" y="340">
         <list key="set_roles">
           <parameter key="TicketType" value="label"/>
         </list>
       </operator>
-      <operator activated="false" class="sample" compatibility="10.2.000" expanded="true" height="82" name="Sample" width="90" x="313" y="340">
+      <operator activated="true" class="sample" compatibility="10.2.000" expanded="true" height="82" name="Sample" width="90" x="313" y="340">
         <parameter key="sample" value="absolute"/>
         <parameter key="balance_data" value="true"/>
         <parameter key="sample_size" value="100"/>
@@ -71,7 +71,7 @@
         <parameter key="use_local_random_seed" value="true"/>
         <parameter key="local_random_seed" value="1992"/>
       </operator>
-      <operator activated="false" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (2)" width="90" x="447" y="340">
+      <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (2)" width="90" x="447" y="340">
         <parameter key="repository_entry" value="ue221A4694/Data/balanced_dataset"/>
       </operator>
       <operator activated="true" class="retrieve" compatibility="10.2.000" expanded="true" height="68" name="Retrieve (2)" width="90" x="45" y="544">
@@ -165,12 +165,100 @@
           <description align="center" color="gray" colored="true" height="156" resized="false" width="784" x="114" y="423">This subprocess is used to define what a word is for the Process Documents to count. Here the tokenize operator allows the user to define how to extract a word from text. In this process, non-letters is used which is a simple but effective way to tokenize. Transform cases is used to make sure 'The', 'THE', and 'the' are all counted as the same word by transforming everything to lowercase. The Filter Stopwords operators use prebuilt english stopwords dictionary and a custom stopwords dictionary to remove useless words for our analysis. Words and parts of speech like pronouns and conjunctions are removed along with a host of other stopwords. Generate n-Grams is the final operation. This operator pairs tearms together, up to four terms in this process, which then get pruned by the process documents operator. This is utilized to find words that show up together often.</description>
         </process>
       </operator>
+      <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (5)" width="90" x="782" y="850">
+        <parameter key="repository_entry" value="../Results/WordList"/>
+      </operator>
       <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (4)" width="90" x="782" y="697">
         <parameter key="repository_entry" value="../Data/TextMinedData"/>
         <description align="center" color="transparent" colored="false" width="126">Stores data as TextMinedData</description>
       </operator>
-      <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (5)" width="90" x="782" y="850">
-        <parameter key="repository_entry" value="../Results/WordList"/>
+      <operator activated="true" class="retrieve" compatibility="10.2.000" expanded="true" height="68" name="Retrieve AllTickets" width="90" x="45" y="952">
+        <parameter key="repository_entry" value="../Data/balanced_dataset"/>
+        <description align="center" color="transparent" colored="false" width="126">Retrive Tickets</description>
+      </operator>
+      <operator activated="true" class="operator_toolbox:set_metadata" compatibility="2.17.000" expanded="true" height="68" name="Set Meta Data" width="90" x="246" y="952">
+        <list key="attributes">
+          <parameter key="FullText" value="text.regular"/>
+          <parameter key="TicketType" value="nominal.regular"/>
+          <parameter key="PostTitle" value="polynominal.regular"/>
+          <parameter key="CreationDate" value="date.regular"/>
+        </list>
+        <parameter key="remove_duplicate_roles" value="false"/>
+      </operator>
+      <operator activated="true" class="operator_toolbox:group_into_collection" compatibility="2.17.000" expanded="true" height="82" name="Group Into Collection" width="90" x="380" y="952">
+        <parameter key="group_by_attribute" value="TicketType"/>
+        <parameter key="group_by_attribute (numerical)" value=""/>
+        <parameter key="sorting_order" value="none"/>
+        <description align="center" color="transparent" colored="false" width="126">Group the data by ticket type to build a topic model for each ticket type</description>
+      </operator>
+      <operator activated="true" class="loop_collection" compatibility="10.2.000" expanded="true" height="124" name="Loop Collection (2)" width="90" x="581" y="952">
+        <parameter key="set_iteration_macro" value="false"/>
+        <parameter key="macro_name" value="iteration"/>
+        <parameter key="macro_start_value" value="1"/>
+        <parameter key="unfold" value="false"/>
+        <process expanded="true">
+          <operator activated="true" class="extract_macro" compatibility="10.2.000" expanded="true" height="68" name="Extract Macro" width="90" x="112" y="34">
+            <parameter key="macro" value="ticket"/>
+            <parameter key="macro_type" value="data_value"/>
+            <parameter key="statistics" value="average"/>
+            <parameter key="attribute_name" value="TicketType"/>
+            <parameter key="example_index" value="1"/>
+            <list key="additional_macros"/>
+            <description align="center" color="transparent" colored="false" width="126">Extract the TicketType out as the 'ticket' macro</description>
+          </operator>
+          <operator activated="true" class="operator_toolbox:lda_exampleset" compatibility="2.17.000" expanded="true" height="124" name="Extract Topics from Data (LDA)" width="90" x="246" y="34">
+            <parameter key="text_attribute" value="FullText"/>
+            <parameter key="number_of_topics" value="10"/>
+            <parameter key="show_optimization_settings" value="false"/>
+            <parameter key="use_alpha_heuristics" value="true"/>
+            <parameter key="alpha_sum" value="0.1"/>
+            <parameter key="use_beta_heuristics" value="true"/>
+            <parameter key="beta" value="0.01"/>
+            <parameter key="optimize_hyperparameters" value="true"/>
+            <parameter key="optimize_interval_for_hyperparameters" value="10"/>
+            <parameter key="iterations" value="100"/>
+            <parameter key="top_words_per_topic" value="10"/>
+            <parameter key="stopword language" value="english"/>
+            <parameter key="reproducible" value="false"/>
+            <parameter key="enable_logging" value="false"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+            <description align="center" color="transparent" colored="false" width="126">Train and LDA for the current TicketType</description>
+          </operator>
+          <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (6)" width="90" x="447" y="493">
+            <parameter key="repository_entry" value="../Results/%{ticket}/Performance"/>
+            <description align="center" color="transparent" colored="false" width="126">Store in the TicketType folder as Performance</description>
+          </operator>
+          <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (7)" width="90" x="447" y="340">
+            <parameter key="repository_entry" value="../Results/%{ticket}/TopicModel"/>
+            <description align="center" color="transparent" colored="false" width="126">Store in the TicketType folder as TopicModel</description>
+          </operator>
+          <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (8)" width="90" x="447" y="187">
+            <parameter key="repository_entry" value="../Results/%{ticket}/Topics"/>
+            <description align="center" color="transparent" colored="false" width="126">Store in the TicketType folder as Topics</description>
+          </operator>
+          <operator activated="true" class="store" compatibility="10.2.000" expanded="true" height="68" name="Store (9)" width="90" x="447" y="34">
+            <parameter key="repository_entry" value="../Results/%{ticket}/ExampleSet"/>
+            <description align="center" color="transparent" colored="false" width="126">Store in the TicketType folder as ExampleSet</description>
+          </operator>
+          <connect from_port="single" to_op="Extract Macro" to_port="example set"/>
+          <connect from_op="Extract Macro" from_port="example set" to_op="Extract Topics from Data (LDA)" to_port="exa"/>
+          <connect from_op="Extract Topics from Data (LDA)" from_port="exa" to_op="Store (9)" to_port="input"/>
+          <connect from_op="Extract Topics from Data (LDA)" from_port="top" to_op="Store (8)" to_port="input"/>
+          <connect from_op="Extract Topics from Data (LDA)" from_port="mod" to_op="Store (7)" to_port="input"/>
+          <connect from_op="Extract Topics from Data (LDA)" from_port="per" to_op="Store (6)" to_port="input"/>
+          <connect from_op="Store (6)" from_port="through" to_port="output 3"/>
+          <connect from_op="Store (8)" from_port="through" to_port="output 2"/>
+          <connect from_op="Store (9)" from_port="through" to_port="output 1"/>
+          <portSpacing port="source_single" spacing="0"/>
+          <portSpacing port="sink_output 1" spacing="0"/>
+          <portSpacing port="sink_output 2" spacing="0"/>
+          <portSpacing port="sink_output 3" spacing="0"/>
+          <portSpacing port="sink_output 4" spacing="0"/>
+          <description align="center" color="blue" colored="true" height="105" resized="false" width="180" x="582" y="87">The store operators utilize the macro %{ticket} to write the results to the current TicketType folder</description>
+          <description align="center" color="green" colored="true" height="216" resized="false" width="326" x="46" y="239">This subprocess generates an LDA topic model with 10 topics for each TicketType. The loop is taking the collection, where each object in the collection is the data for an individual ticket type, and applying the Extract Topics from Data (LDA) to each dataset. &lt;br/&gt;&lt;br/&gt;The result is a model, performance, Topic dataset, and scored data.&lt;br/&gt;</description>
+        </process>
+        <description align="center" color="transparent" colored="false" width="126">Loops over the data in the collection</description>
       </operator>
       <connect from_op="Read CSV" from_port="output" to_op="Store" to_port="input"/>
       <connect from_op="Retrieve" from_port="output" to_op="Set Role" to_port="example set input"/>
@@ -178,11 +266,14 @@
       <connect from_op="Sample" from_port="example set output" to_op="Store (2)" to_port="input"/>
       <connect from_op="Retrieve (2)" from_port="output" to_op="Select Attributes" to_port="example set input"/>
       <connect from_op="Select Attributes" from_port="example set output" to_op="Store (3)" to_port="input"/>
-      <connect from_op="Store (3)" from_port="through" to_port="result 1"/>
       <connect from_op="Retrieve (3)" from_port="output" to_op="Write CSV" to_port="input"/>
       <connect from_op="Write CSV" from_port="through" to_op="Process Documents from Data" to_port="example set"/>
       <connect from_op="Process Documents from Data" from_port="example set" to_op="Store (4)" to_port="input"/>
       <connect from_op="Process Documents from Data" from_port="word list" to_op="Store (5)" to_port="input"/>
+      <connect from_op="Retrieve AllTickets" from_port="output" to_op="Set Meta Data" to_port="exa"/>
+      <connect from_op="Set Meta Data" from_port="exa" to_op="Group Into Collection" to_port="exa"/>
+      <connect from_op="Group Into Collection" from_port="col" to_op="Loop Collection (2)" to_port="collection"/>
+      <connect from_op="Loop Collection (2)" from_port="output 1" to_port="result 1"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
@@ -190,6 +281,7 @@
       <description align="center" color="yellow" colored="false" height="50" resized="true" width="154" x="47" y="255">task 02</description>
       <description align="center" color="yellow" colored="false" height="50" resized="true" width="169" x="49" y="468">task 03</description>
       <description align="center" color="yellow" colored="false" height="50" resized="true" width="165" x="33" y="677">task 04</description>
+      <description align="center" color="yellow" colored="false" height="50" resized="true" width="157" x="37" y="883">task 05</description>
     </process>
   </operator>
 </process>
